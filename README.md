@@ -23,20 +23,20 @@ Dictomaton is in the Maven Central Repository:
 <dependency>
     <groupId>eu.danieldk.dictomaton</groupId>
     <artifactId>dictomaton</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.1</version>
 </dependency>
 ~~~
 
 SBT:
 
 ~~~
-libraryDependencies += "eu.danieldk.dictomaton" % "dictomaton" % "1.0.0"
+libraryDependencies += "eu.danieldk.dictomaton" % "dictomaton" % "1.1.1"
 ~~~
 
 Grails:
 
 ~~~
-compile 'eu.danieldk.dictomaton:dictomaton:1.0.0'
+compile 'eu.danieldk.dictomaton:dictomaton:1.1.1'
 ~~~
 
 ## Comparisons
@@ -62,6 +62,11 @@ benchmarks via Maven, adding the Benchmarks group:
     mvn test -Djunit.groups=eu.danieldk.dictomaton.categories.Benchmarks
 
 ## Changelog
+
+### 1.2.0
+
+* Exposing state through StateInfo object, which allows user of PerfectHashDictionary to resume transitions, which makes it e.g. far more efficient to look up a string and its prefixes. (contributed by René Kriegler).
+* DictionaryBuilder now accepts adding more general CharSequence instead of String and uses CharSequence internally (contributed by René Kriegler).
 
 ### 1.1.0
 
@@ -91,8 +96,10 @@ benchmarks via Maven, adding the Benchmarks group:
 
 ## Release plan
 
- * **1.0.0**: first stable release.
- * **1.1.0**: generic object values.
-
-Plans for 1.2.0: Perhaps an explicit, fast, and compact data storage format
+Plans for 1.3.0: Perhaps an explicit, fast, and compact data storage format
 as an alternative to Java serialization. C or C++ version.
+
+## Contributors
+
+* Daniël de Kok (maintainer)
+* René Kriegler

@@ -18,11 +18,13 @@ import java.lang.reflect.Array;
 import java.util.*;
 
 /**
+ * <p>
  * A finite state dictionary. Dictionaries of this type can are constructed
  * using {@link eu.danieldk.dictomaton.DictionaryBuilder#build()}.
- * <p/>
+ * </p>
+ * <p>
  * This class uses integers (int) for transition and state numbers.
- *
+ * </p>
  * @author Daniel de Kok
  */
 class DictionaryImpl extends AbstractSet<String> implements Dictionary {
@@ -190,17 +192,14 @@ class DictionaryImpl extends AbstractSet<String> implements Dictionary {
     private class DictionaryIterator implements Iterator<String> {
         private final Stack<StateStringPair> d_stack;
 
-        private int d_seqsRemaining;
-
         public DictionaryIterator() {
             d_stack = new Stack<StateStringPair>();
             d_stack.push(new StateStringPair(0, ""));
-            d_seqsRemaining = d_nSeqs;
         }
 
         @Override
         public boolean hasNext() {
-            if (d_seqsRemaining == 0)
+            if (d_stack.isEmpty() || d_nSeqs == 0)
                 return false;
 
             return true;
@@ -208,7 +207,7 @@ class DictionaryImpl extends AbstractSet<String> implements Dictionary {
 
         @Override
         public String next() {
-            if (d_seqsRemaining == 0)
+            if (d_stack.isEmpty() || d_nSeqs == 0)
                 throw new NoSuchElementException();
 
             StateStringPair pair;
@@ -221,10 +220,8 @@ class DictionaryImpl extends AbstractSet<String> implements Dictionary {
                 for (int trans = transitionsUpperBound(state) - 1; trans >= d_stateOffsets.get(state); --trans)
                     d_stack.push(new StateStringPair(d_transitionTo.get(trans), string + d_transitionChars[trans]));
 
-                if (d_finalStates.get(state)) {
-                    --d_seqsRemaining;
+                if (d_finalStates.get(state))
                     return string;
-                }
             }
 
             // Impossible to reach.
